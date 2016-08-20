@@ -10,14 +10,16 @@ import com.ibm.iotf.client.device.DeviceClient;
 public class FurbyCommandCallback implements CommandCallback {
 
 	private DeviceClient client;
-	private FurbyController controller=new FurbyController(client);
+	private FurbyController controller=null;
 	
 	public FurbyCommandCallback(DeviceClient c) {
 		client=c;
+		controller=new FurbyController(client);
 	}
+	
 	@Override
 	public void processCommand(Command arg0) {
-		
+	
 		try {
 		String payload=arg0.getPayload();
 		JsonObject object = Json.parse(payload).asObject();
