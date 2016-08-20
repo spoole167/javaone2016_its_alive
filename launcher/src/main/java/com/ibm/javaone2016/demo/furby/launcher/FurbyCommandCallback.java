@@ -19,12 +19,18 @@ public class FurbyCommandCallback implements CommandCallback,Runnable {
      * 
      */
 	private DeviceClient client;
-	private FurbyController controller=null;
+	private IFurbyController controller=null;
 	
 	public FurbyCommandCallback(DeviceClient c) {
 		client=c;
-		controller=new FurbyController(client);
+		if(client.getDeviceId().equals("simulator")) {
+			controller=new FurbySimController(client);
+		}
+		else {
 		
+		controller=new FurryFurbyController(client);
+		
+		}
 	}
 	
 	@Override
