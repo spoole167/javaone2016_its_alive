@@ -46,7 +46,13 @@ public class Launcher {
 		
         DeviceClient client = null;
         client = new DeviceClient(options);
-        client.setCommandCallback(new FurbyCommandCallback(client));
+        FurbyCommandCallback cmdHandler=new FurbyCommandCallback(client);
+        
+        Thread t=new Thread(cmdHandler);
+        t.start();
+        
+        client.setCommandCallback(cmdHandler);
+        
 
         //Connect to the IBM IoT Foundation
         client.setKeepAliveInterval(120);

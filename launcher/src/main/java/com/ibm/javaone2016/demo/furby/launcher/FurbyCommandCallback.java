@@ -24,6 +24,7 @@ public class FurbyCommandCallback implements CommandCallback,Runnable {
 	public FurbyCommandCallback(DeviceClient c) {
 		client=c;
 		controller=new FurbyController(client);
+		
 	}
 	
 	@Override

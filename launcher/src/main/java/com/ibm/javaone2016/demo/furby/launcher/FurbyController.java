@@ -127,12 +127,13 @@ public class FurbyController {
 		forwards.high();
         backwards.low();
         hitHome=false;
-
-        while(!hitHome) {
+        int counter=0;
+        while(!hitHome && counter<1000) {
         	Future<?> f=pulse.pulse(STEP);
         f.get();
         position+=STEP;
-        System.out.println("now at counter="+position);
+        counter++;
+        System.out.println(counter+") now at counter="+position);
         }
 
         System.out.println("now at counter="+position);
