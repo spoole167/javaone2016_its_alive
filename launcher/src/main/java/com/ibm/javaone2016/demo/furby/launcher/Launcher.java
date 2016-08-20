@@ -12,7 +12,7 @@ public class Launcher {
 		
 		
 		String homeURL=System.getenv("HOME_URL");
-		if(homeURL==null) homeURL="https://trio.eu-gb.mybluemix.net/home";
+		if(homeURL==null) homeURL="http://trio.eu-gb.mybluemix.net/home";
 				
 		String serial=System.getenv("SERIAL");
 		
@@ -23,7 +23,7 @@ public class Launcher {
 		}
 		
 		
-		URL home=new URL(homeURL+"?serial="+serial);
+		URL home=new URL(homeURL+"?serial="+serial.trim());
 		
 		BufferedReader br=new BufferedReader(new InputStreamReader(home.openStream()));
 		String data=br.readLine();
