@@ -108,10 +108,13 @@ public class FurbyController {
 
 	public void sleep() throws Exception{
 		
+		int pulsedist=1000-position;
+		if(pulsedist<1) return;
+		
 		if(position>0 && position<1600) {
             forwards.high();
             backwards.low();
-            Future<?> f=pulse.pulse(1000-position);
+            Future<?> f=pulse.pulse(pulsedist);
             f.get();
             position=1000;
             sendASleep();
