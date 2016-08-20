@@ -1,14 +1,23 @@
 package com.ibm.javaone2016.demo.furby.launcher;
 
 
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+
 import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonObject;
 import com.ibm.iotf.client.device.Command;
 import com.ibm.iotf.client.device.CommandCallback;
 import com.ibm.iotf.client.device.DeviceClient;
 
-public class FurbyCommandCallback implements CommandCallback {
+public class FurbyCommandCallback implements CommandCallback,Runnable {
 
+	
+	private BlockingQueue<Command> queue = new LinkedBlockingQueue<Command>();
+
+    /**
+     * 
+     */
 	private DeviceClient client;
 	private FurbyController controller=null;
 	
@@ -18,8 +27,30 @@ public class FurbyCommandCallback implements CommandCallback {
 	}
 	
 	@Override
-	public void processCommand(Command arg0) {
+	public void processCommand(Command cmd) {
 	
+		 try {
+             queue.put(cmd);
+             } catch (InterruptedException e) {
+     }
+		
+	}
+	
+	@Override
+    public void run() {
+		
+		 while(true) {
+			 
+			 Command cmd = null;
+             try {
+                     cmd = queue.take();
+                     handleCommand(cmd);
+             } catch (InterruptedException e) {}
+			
+		 }
+	}
+	
+	private void handleCommand(Command arg0) {
 		try {
 		String payload=arg0.getPayload();
 		JsonObject object = Json.parse(payload).asObject();
@@ -35,8 +66,6 @@ public class FurbyCommandCallback implements CommandCallback {
 			controller.wake();
 			break;
 		}
-		
-		client.publishEvent("command", "done");
 		
 		} catch(Exception e) {
 			e.printStackTrace();
