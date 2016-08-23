@@ -47,26 +47,20 @@
       <target>1.8</target>
     </configuration>
    </plugin>
-     <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>1.5.0</version>
-                <executions>
-          <execution>
-            <goals>
-              <goal>java</goal>
-            </goals>
-          </execution>
-        </executions>
-                <configuration>
-                    <mainClass>com.ibm.javaone2016.demo.furby.launcher.Launcher</mainClass>
-                    <arguments>
-                    </arguments>
-                </configuration>
-                <dependencies>
-         </dependencies>
-            </plugin>
-   </plugins>
+    <plugin>
+      <artifactId>maven-assembly-plugin</artifactId>
+      <configuration>
+        <archive>
+          <manifest>
+            <mainClass>com.ibm.javaone2016.demo.furby.launcher.Launcher</mainClass>
+          </manifest>
+        </archive>
+        <descriptorRefs>
+          <descriptorRef>jar-with-dependencies</descriptorRef>
+        </descriptorRefs>
+      </configuration>
+    </plugin>
+  </plugins>
    
    </build>
 </project>

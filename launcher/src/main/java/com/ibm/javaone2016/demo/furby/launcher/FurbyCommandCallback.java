@@ -63,6 +63,10 @@ public class FurbyCommandCallback implements CommandCallback,Runnable {
 		JsonObject object = Json.parse(payload).asObject();
 		String cmd = object.get("cmd").asString();
 		switch(cmd) {
+		case "reboot" :
+				System.exit(50);
+		case "quit" :
+			System.exit(0);		
 		case "say" :
 			controller.say(object.get("text").asString());
 			break;
