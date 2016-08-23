@@ -1,7 +1,7 @@
 package com.ibm.javaone2016.demo.furby.launcher;
 import java.io.InputStreamReader;
+import java.net.InetAddress;
 import java.net.URL;
-import java.sql.Time;
 import java.util.Properties;
 
 import com.google.gson.JsonObject;
@@ -19,6 +19,7 @@ public class Launcher {
 		if(homeURL==null) homeURL="http://trio.eu-gb.mybluemix.net/home";
 				
 		String serial=System.getenv("SERIAL");
+		String ipaddress=InetAddress.getLocalHost().getHostAddress();
 		
 		//
 		// if serial is not provided then assume simulator mode
@@ -34,7 +35,7 @@ public class Launcher {
 		}
 		
 		
-		URL home=new URL(homeURL+"?serial="+serial.trim());
+		URL home=new URL(homeURL+"?serial="+serial.trim()+"&ip="+ipaddress);
 		Properties options = new Properties();
 		
 		JsonReader br=new JsonReader(new InputStreamReader(home.openStream()));
