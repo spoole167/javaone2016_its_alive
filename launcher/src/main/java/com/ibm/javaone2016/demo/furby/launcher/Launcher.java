@@ -5,13 +5,14 @@ import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
-import java.net.URL;
 import java.util.Enumeration;
 import java.util.Properties;
 
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Mixer;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -95,6 +96,17 @@ public class Launcher {
 			}
 		}
 
+		JsonArray jmixers = new JsonArray();
+		jso.add("mixers", jmixers);
+		Mixer.Info[] mixers= AudioSystem.getMixerInfo();
+		for(Mixer.Info mixer:mixers) {
+			JsonObject mx=new JsonObject();
+			mx.addProperty("name",mixer.getName());
+			mx.addProperty("description",mixer.getName());
+			jmixers.add(mx);
+		}
+		
+		
 		CloseableHttpClient httpClient = HttpClients.createDefault();
 		HttpPut request = new HttpPut(homeURL);
 		StringEntity params = new StringEntity(jso.toString(), "UTF-8");
